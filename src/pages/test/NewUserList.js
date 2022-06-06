@@ -1,19 +1,22 @@
 import React from "react";
 import "./NewUser.css";
 import axios from 'axios';
-var querystring = require("querystring")
+import { message, Button } from 'antd';
 class NewUserList extends React.Component {
 
     state = {
         txtmasv: '',
         txtpw: '',
         txtname: '',
-        txtemail: '',
         txtaddres: '',
-        male: '',
-        female: '',
+        txtphone: '',
+        txtsex: '',
+        txtdob: ''
     }
 
+    info = () => {
+        message.info('Thêm thành công');
+    };
 
     onChange = (e) => {
         var target = e.target;
@@ -23,13 +26,14 @@ class NewUserList extends React.Component {
             [name]: value
         });
 
+
         // const { txtmasv, txtpw, txtaddres, txtname, txtemail } = this.state
         // this.setState({ txtmasv: e.target.value, txtaddres: e.target.value, txtpw: e.target.value, txtname: e.target.value })
     }
 
     onSave = (e) => {
         e.preventDefault();
-        const { txtmasv, txtpw, txtname, txtemail, txtaddres, male, female } = this.state;
+        const { txtmasv, txtpw, txtname, txtaddres, txtsex, txtphone, txtdob } = this.state;
 
 
         console.log("this", this.state)
@@ -38,8 +42,10 @@ class NewUserList extends React.Component {
             password: txtpw,
             name: txtname,
             address: txtaddres,
+            telephone: txtphone,
+            sex: txtsex,
             role: "student",
-            dob: "12-09-2000"
+            dob: txtdob
         }).then(res => {
             console.log(res);
         });
@@ -47,7 +53,7 @@ class NewUserList extends React.Component {
 
 
     render() {
-        var { txtmasv, txtpw, txtname, txtemail, txtaddres, male, female } = this.state;
+        var { txtmasv, txtpw, txtname, txtdob, txtaddres, txtsex, txtdob, txtphone } = this.state;
         return (
             <div className="newUser">
                 <h1 className="newUserTitle">THÊM SINH VIÊN </h1>
@@ -71,6 +77,7 @@ class NewUserList extends React.Component {
                                 onChange={this.onChange}
                             />
                         </div>
+
                         <div className="newUserItem">
                             <label>Họ tên</label>
                             <input type="text"
@@ -81,18 +88,21 @@ class NewUserList extends React.Component {
                             />
                         </div>
                         <div className="newUserItem">
-                            <label>Email</label>
-                            <input type="email"
-                                placeholder="nhập email"
-                                name="txtemail"
-                                value={txtemail}
+                            <label>Ngày sinh</label>
+                            <input type="text"
+                                placeholder="ngày sinh"
+                                name="txtdob"
+                                value={txtdob}
                                 onChange={this.onChange}
                             />
                         </div>
+
                         <div className="newUserItem">
                             <label>Số điện thoại</label>
                             <input type="text"
                                 placeholder="nhập số điện thoại"
+                                value={txtphone}
+                                onChange={this.onChange}
                             />
                         </div>
                         <div className="newUserItem">
@@ -110,13 +120,13 @@ class NewUserList extends React.Component {
                                 <input type="radio"
                                     name="male"
                                     id="male"
-                                    value={male}
+                                    value={txtsex}
                                     onChange={this.onChange}
                                 />
                                 <label >Nam</label>
                                 <input type="radio" name="female"
                                     id="female"
-                                    value={female}
+                                    value={txtsex}
                                     onChange={this.onChange}
                                 />
                                 <label >Nữ</label>
@@ -129,7 +139,7 @@ class NewUserList extends React.Component {
                                 <option value="no">No</option>
                             </select>
                         </div>
-                        <button className="newUserButton">LƯU</button>
+                        <button className="newUserButton" onClick={this.info} >LƯU</button>
                     </div>
 
 

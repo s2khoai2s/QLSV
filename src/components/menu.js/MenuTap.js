@@ -68,7 +68,7 @@ class SiderDemo extends React.Component {
                 <div>
                     <Layout
                         style={{
-                            minHeight: '100vh',
+                            minHeight: '150vh',
                             maxWidth: '200px'
                         }}
                     >

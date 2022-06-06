@@ -64,6 +64,69 @@ export const productData = [
   },
 ];
 
+export const DiemTBM = [
+  {
+    id: '1',
+    userid: '1861030013',
+    name: "Nhat Linh",
+    lop: 'K21A',
+    khoa: 'CNTT',
+    Mh: 'Toán cao cấp',
+    diemTB: '8',
+    diemChu: 'B+'
+  },
+  {
+    id: '2',
+    userid: '1861030014',
+    name: "Huu Long",
+    lop: 'K21A',
+    khoa: 'CNTT',
+    Mh: 'Toán cao cấp',
+    diemTB: '4.4',
+    diemChu: 'D'
+  },
+  {
+    id: '3',
+    userid: '1861030015',
+    name: "Tran Minh",
+    lop: 'K21A',
+    khoa: 'CNTT',
+    Mh: 'Toán cao cấp',
+    diemTB: '6.2',
+    diemChu: 'C+'
+  },
+  {
+    id: '4',
+    userid: '1861030016',
+    name: "Hoang Ngan",
+    lop: 'K21A',
+    khoa: 'CNTT',
+    Mh: 'Toán cao cấp',
+    diemTB: '7',
+    diemChu: 'B'
+  },
+  {
+    id: '5',
+    userid: '1861030017',
+    name: "Si Phong",
+    lop: 'K21A',
+    khoa: 'CNTT',
+    Mh: 'Toán cao cấp',
+    diemTB: '8',
+    diemChu: 'B+'
+  },
+  {
+    id: '6',
+    userid: '1861030018',
+    name: "Minh Tien",
+    lop: 'K21A',
+    khoa: 'CNTT',
+    Mh: 'Toán cao cấp',
+    diemTB: '6.4',
+    diemChu: 'C+'
+  },
+];
+
 export const userRows = [
   {
     id: 1,

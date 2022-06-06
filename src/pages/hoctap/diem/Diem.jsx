@@ -1,134 +1,69 @@
-import React from 'react';
-import './Diem.css';
-import { Table, Input, Button, Space } from 'antd';
-import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
-import { dataDiem } from '../../../dummyData';
+import "./Diem.css";
+import { DataGrid, GridToolbar, loading, totalPages } from "@material-ui/data-grid";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { DiemTBM } from '../../../dummyData';
+import { EyeFilled } from '@ant-design/icons';
 
-const data = dataDiem;
+export default function Diem() {
+    const [data, setData] = useState(DiemTBM);
 
-class Diem extends React.Component {
-    state = {
-        searchText: '',
-        searchedColumn: '',
-    };
-
-    getColumnSearchProps = dataIndex => ({
-        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-            <div style={{ padding: 8 }}>
-                <Input
-                    ref={node => {
-                        this.searchInput = node;
-                    }}
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-                    style={{ marginBottom: 8, display: 'block' }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 90 }}
-                    >
-                        Search
-                    </Button>
-                    <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-                        Reset
-                    </Button>
-                </Space>
-            </div>
-        ),
-        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-        onFilter: (value, record) =>
-            record[dataIndex]
-                ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-                : '',
-        onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-                setTimeout(() => this.searchInput.select(), 100);
-            }
+    const columns = [
+        { field: "id", headerName: "STT", width: 100 },
+        { field: "userid", headerName: "MSV", width: 130 },
+        {
+            field: "name",
+            headerName: "Họ tên",
+            width: 120,
+            renderCell: (params) => {
+                return (
+                    <div className="userListUser">
+                        {/* <img className="userListImg" src={params.row.avatar} alt="" /> */}
+                        {params.row.name}
+                    </div>
+                );
+            },
         },
-        render: text =>
-            this.state.searchedColumn === dataIndex ? (
-                <Highlighter
-                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                    searchWords={[this.state.searchText]}
-                    autoEscape
-                    textToHighlight={text ? text.toString() : ''}
-                />
-            ) : (
-                text
-            ),
-    });
-
-    handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm();
-        this.setState({
-            searchText: selectedKeys[0],
-            searchedColumn: dataIndex,
-        });
-    };
-
-    handleReset = clearFilters => {
-        clearFilters();
-        this.setState({ searchText: '' });
-    };
-
-    render() {
-        const columns = [
-            {
-                title: 'STT',
-                key: 'stt',
-                dataIndex: 'key',
-                width: 100,
+        { field: "lop", headerName: "Lớp", width: 100 },
+        { field: "khoa", headerName: "Khoa", width: 120 },
+        {
+            field: "Mh",
+            headerName: "Môn học",
+            width: 130,
+        },
+        { field: "diemTB", headerName: "Điểm TB", width: 130 },
+        { field: "diemChu", headerName: "Điểm chữ", width: 150 },
+        {
+            field: "action",
+            headerName: "Hành động",
+            width: 150,
+            renderCell: (params) => {
+                return (
+                    <>
+                        <Link to={"/user/" + params.row.id}>
+                            <EyeFilled className="userListEdit" />
+                        </Link>
+                    </>
+                );
             },
-            {
-                title: 'Mã sinh viên',
-                dataIndex: 'msv',
-                key: 'msv',
-                width: 150,
-                ...this.getColumnSearchProps('msv'),
-            },
-            {
-                title: 'Họ tên',
-                dataIndex: 'name',
-                key: 'name',
-                width: 200,
-                ...this.getColumnSearchProps('name'),
-            },
-            {
-                title: 'Lớp',
-                dataIndex: 'lop',
-                key: 'lop',
-                width: 200,
-                ...this.getColumnSearchProps('lop'),
-            },
-            {
-                title: 'Khoa',
-                dataIndex: 'khoa',
-                key: 'khoa',
-                width: 200,
+        },
+    ];
 
-            },
+    return (
+        <div className="userList">
+            <h1>Bảng Điểm</h1>
 
-            {
-                title: 'Điểm tổng kết',
-                key: 'diemtk',
-                dataIndex: 'diemtk',
-                width: 150,
-            },
-            {
-                title: 'Ghi chú',
-                key: 'ghichu',
-                width: 150,
-            }
-        ];
-        return <div className='Diem'><Table columns={columns} dataSource={data} /></div>;
-    }
-}
+            <DataGrid
+                rows={data}
+                disableSelectionOnClick
+                columns={columns}
+                pageSize={25}
+                components={{ Toolbar: GridToolbar }}
+                getRowId={(row) => row.id}
+            />
 
-export default Diem;
+
+        </div>
+
+    );
+};

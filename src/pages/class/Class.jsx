@@ -4,7 +4,7 @@ import { DeleteOutline } from "@material-ui/icons";
 import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button, Popconfirm, message, Modal } from 'antd';
+import { Button, Popconfirm, message } from 'antd';
 // const loginInfo = require ("../../loginInfo");
 import { loginInfo, role } from "../../loginInfo";
 import {
@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons';
 import axios from "axios";
 
-export default function UserList() {
+export default function Class() {
     const [data, setData] = useState([]);
     useEffect(() => {
         axios.get(`http://localhost:4000/${role()}/qlsv/user/`, { headers: loginInfo() })
@@ -21,31 +21,15 @@ export default function UserList() {
     }, [])
 
     const handleDelete = (_id) => {
-        axios.delete(`http://localhost:4000/${role()}/qlsv/user/${_id}`, { headers: loginInfo() })
+        axios.delete(`http://localhost:4000/${role()}/qlsv/user/${_id}`)
             .then(res => {
                 console.log(res);
                 setData(data.filter((item) => item._id !== _id))
             });
     }
-    // function confirm(e) {
-    //     console.log(e);
-    //     message.success("Click on Yes");
-    // }
-
-    const confirm = () => {
-        Modal.confirm({
-            title: 'Do you Want to delete these items?',
-            icon: null,
-            content: 'Some descriptions',
-
-            onOk() {
-                console.log('OK');
-            },
-
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
+    function confirm(e) {
+        console.log(e);
+        message.success("Click on Yes");
     }
 
 
@@ -54,7 +38,7 @@ export default function UserList() {
         {
             field: "name",
             headerName: "Họ tên",
-            width: 180,
+            width: 200,
             renderCell: (params) => {
                 return (
                     <div className="userListUser">
@@ -68,10 +52,9 @@ export default function UserList() {
         {
             field: "address",
             headerName: "Địa chỉ",
-            width: 150,
+            width: 200,
         },
-        { field: "telephone", headerName: "Phone", width: 150 },
-        { field: "sex", headerName: "Giới tính", width: 100 },
+        { field: "email", headerName: "Email", width: 150 },
         {
             field: "action",
             headerName: "Hành động",
@@ -82,10 +65,16 @@ export default function UserList() {
                         <Link to={"/user/" + params.row._id}>
                             <EditFilled className="userListEdit" />
                         </Link>
-                        <DeleteOutline
-                            className="userListDelete"
-                            onClick={(comfirm) => handleDelete(params.row._id)}
-                        />
+                        <Popconfirm title="Bạn có chắc chắn muốn xoá không?" okText="Yes" cancelText="No"
+                            onConfirm={confirm}
+                        >
+
+                            <DeleteOutline
+                                className="userListDelete"
+                                onClick={() => handleDelete(params.row._id)}
+                            />
+                        </Popconfirm>
+
                     </>
                 );
             },

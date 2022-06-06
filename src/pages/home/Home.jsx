@@ -10,9 +10,7 @@ export default function Home() {
     return (
         <div className="home">
             <FeaturedInfo />
-
             <Chart data={userData} title="Biểu đồ sinh viên " grid dataKey="Active User" />
-            <Title />
             <div className="homeWidgets">
                 {/* <WidgetSm /> */}
                 {/* <WidgetLg /> */}
